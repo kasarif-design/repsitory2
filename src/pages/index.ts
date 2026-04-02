@@ -1,0 +1,9 @@
+export { Landing } from './Landing';
+export { Login } from './Login';
+export { Signup } from './Signup';
+export { ForgotPassword } from './ForgotPassword';
+export { Dashboard } from './Dashboard';
+export { Analytics } from './Analytics';
+export { Projects } from './Projects';
+export { Team } from './Team';
+export { Settings } from './Settings';
