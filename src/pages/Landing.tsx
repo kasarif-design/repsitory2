@@ -1,65 +1,191 @@
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
+  Shield,
+  Zap,
+  Users,
   CheckCircle,
-  ChevronDown,
-  FileText,
-  Calendar,
-  Bell,
-  HardHat,
-  X,
-  Star,
+  BarChart3,
+  Lock,
+  Globe,
   Clock,
-  AlertTriangle,
-  TrendingDown,
-  BrainCircuit,
-  CalendarCheck,
-  RefreshCw,
-  LayoutGrid,
-  ShieldCheck,
-  CreditCard,
-  XCircle,
+  Headphones,
+  Star,
+  ChevronDown,
+  Play,
+  Building2,
+  TrendingUp,
+  Layers
 } from 'lucide-react';
+import { Button } from '../components/ui';
+import { PublicHeader } from '../components/layout/Header';
 import { useState } from 'react';
+
+const features = [
+  {
+    icon: BarChart3,
+    title: 'Tableaux de bord analytiques',
+    description: 'Visualisez vos donnees en temps reel avec des graphiques interactifs et des KPIs personnalisables.',
+  },
+  {
+    icon: Users,
+    title: 'Gestion d\'equipe',
+    description: 'Invitez vos collaborateurs, definissez les roles et gerez les permissions en quelques clics.',
+  },
+  {
+    icon: Lock,
+    title: 'Securite entreprise',
+    description: 'Chiffrement de bout en bout, SSO, authentification 2FA et conformite RGPD garantie.',
+  },
+  {
+    icon: Zap,
+    title: 'Automatisations',
+    description: 'Creez des workflows automatises pour gagner du temps sur vos taches repetitives.',
+  },
+  {
+    icon: Globe,
+    title: 'API ouverte',
+    description: 'Integrez notre solution a vos outils existants grace a notre API REST documentee.',
+  },
+  {
+    icon: Headphones,
+    title: 'Support prioritaire',
+    description: 'Une equipe dediee disponible 24/7 pour vous accompagner dans votre succes.',
+  },
+];
+
+const stats = [
+  { value: '10K+', label: 'Entreprises clientes' },
+  { value: '99.9%', label: 'Disponibilite' },
+  { value: '50M+', label: 'Operations/jour' },
+  { value: '<100ms', label: 'Temps de reponse' },
+];
+
+const testimonials = [
+  {
+    quote: 'Cette solution a transforme notre facon de travailler. Nous avons gagne 40% de productivite en 3 mois.',
+    author: 'Marie Dupont',
+    role: 'Directrice Operations',
+    company: 'TechCorp France',
+    avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+  },
+  {
+    quote: 'L\'integration a ete transparente et le support client est exceptionnel. Je recommande vivement.',
+    author: 'Thomas Martin',
+    role: 'CTO',
+    company: 'StartupFlow',
+    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+  },
+  {
+    quote: 'Enfin une plateforme qui comprend les besoins des equipes modernes. Simple, puissant, efficace.',
+    author: 'Sophie Bernard',
+    role: 'Head of Product',
+    company: 'InnovateLab',
+    avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+  },
+];
+
+const pricingPlans = [
+  {
+    name: 'Starter',
+    description: 'Pour les petites equipes qui demarrent',
+    price: '29',
+    period: '/mois',
+    features: [
+      'Jusqu\'a 5 utilisateurs',
+      '10 Go de stockage',
+      'Tableaux de bord basiques',
+      'Support email',
+      'Integrations limitees',
+    ],
+    cta: 'Commencer',
+    popular: false,
+  },
+  {
+    name: 'Business',
+    description: 'Pour les entreprises en croissance',
+    price: '79',
+    period: '/mois',
+    features: [
+      'Jusqu\'a 25 utilisateurs',
+      '100 Go de stockage',
+      'Tableaux de bord avances',
+      'Support prioritaire',
+      'Toutes les integrations',
+      'API access',
+      'SSO (SAML)',
+    ],
+    cta: 'Essai gratuit',
+    popular: true,
+  },
+  {
+    name: 'Enterprise',
+    description: 'Pour les grandes organisations',
+    price: 'Sur mesure',
+    period: '',
+    features: [
+      'Utilisateurs illimites',
+      'Stockage illimite',
+      'Fonctionnalites personnalisees',
+      'Account manager dedie',
+      'SLA garanti 99.99%',
+      'Deploiement on-premise',
+      'Formation sur site',
+    ],
+    cta: 'Nous contacter',
+    popular: false,
+  },
+];
 
 const faqs = [
   {
-    question: 'Est-ce que je dois entrer ma carte bancaire pour l\'essai ?',
-    answer: 'Non. L\'essai gratuit de 14 jours est accessible sans carte bancaire. Vous n\'êtes facturé qu\'à la fin de la période d\'essai, si vous décidez de continuer.',
+    question: 'Comment fonctionne l\'essai gratuit ?',
+    answer: 'Vous beneficiez de 14 jours d\'acces complet a toutes les fonctionnalites du plan Business, sans engagement et sans carte bancaire. A la fin de l\'essai, vous pouvez choisir le plan qui vous convient.',
   },
   {
-    question: 'Combien de temps faut-il pour commencer ?',
-    answer: 'Moins de 5 minutes. Vous créez votre compte, vous importez vos chantiers en cours, et c\'est parti. Pas de formation requise.',
+    question: 'Puis-je changer de plan a tout moment ?',
+    answer: 'Oui, vous pouvez upgrader ou downgrader votre plan a tout moment. Le changement prend effet immediatement et la facturation est ajustee au prorata.',
   },
   {
-    question: 'Est-ce adapté aux petites entreprises du BTP ?',
-    answer: 'BATIUM est fait pour vous. Artisans, PME, 1 à 50 salariés — l\'outil est simple, direct, sans jargon tech.',
+    question: 'Mes donnees sont-elles securisees ?',
+    answer: 'Absolument. Nous utilisons un chiffrement AES-256 pour les donnees au repos et TLS 1.3 pour les donnees en transit. Nos serveurs sont heberges dans des datacenters certifies ISO 27001 en Europe.',
   },
   {
-    question: 'Puis-je résilier à tout moment ?',
-    answer: 'Oui. Pas d\'engagement, pas de frais de résiliation. Vous arrêtez quand vous voulez, en un clic.',
+    question: 'Proposez-vous des formations ?',
+    answer: 'Oui, nous proposons des webinaires gratuits chaque semaine, une documentation complete, et des formations personnalisees pour les clients Enterprise.',
   },
   {
-    question: 'Mes données sont-elles sécurisées ?',
-    answer: 'Toutes vos données sont chiffrées et hébergées en France. Vous restez propriétaire de vos données, toujours.',
+    question: 'Quelles integrations sont disponibles ?',
+    answer: 'Nous nous integrons avec plus de 100 outils : Slack, Microsoft Teams, Salesforce, HubSpot, Zapier, Google Workspace, et bien d\'autres. Notre API permet egalement de creer vos propres integrations.',
   },
+];
+
+const logos = [
+  'TechCorp', 'InnovateLab', 'StartupFlow', 'DataFirst', 'CloudNine', 'ScaleUp'
 ];
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="border-b border-[#E5E7EB]">
+    <div className="border-b border-slate-200">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full py-5 flex items-center justify-between text-left gap-4"
+        className="w-full py-6 flex items-center justify-between text-left"
       >
-        <span className="text-base font-semibold text-[#1E3A5F]">{question}</span>
+        <span className="text-lg font-medium text-slate-900">{question}</span>
         <ChevronDown
-          className={`w-5 h-5 text-[#6B7280] flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-slate-500 transition-transform duration-200 ${
+            isOpen ? 'rotate-180' : ''
+          }`}
         />
       </button>
-      <div className={`overflow-hidden transition-all duration-200 ${isOpen ? 'max-h-48 pb-5' : 'max-h-0'}`}>
-        <p className="text-[#6B7280] leading-relaxed">{answer}</p>
+      <div
+        className={`overflow-hidden transition-all duration-200 ${
+          isOpen ? 'max-h-96 pb-6' : 'max-h-0'
+        }`}
+      >
+        <p className="text-slate-600 leading-relaxed">{answer}</p>
       </div>
     </div>
   );
@@ -67,288 +193,267 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 export function Landing() {
   return (
-    <div className="min-h-screen bg-[#F7F9FC]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-white">
+      <PublicHeader />
 
-      {/* HERO */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-[#F7F9FC]">
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-medium mb-8">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+              Nouveau : Integrations Zapier disponibles
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
+              La plateforme qui
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-500">
+                accelere votre business
+              </span>
+            </h1>
+            <p className="mt-8 text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              Centralisez vos operations, automatisez vos workflows et prenez des decisions
+              eclairees grace a des donnees en temps reel. Rejoignez 10 000+ entreprises.
+            </p>
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/signup">
+                <Button size="lg" className="group">
+                  Demarrer gratuitement
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Button variant="outline" size="lg" className="group">
+                <Play className="mr-2 w-5 h-5" />
+                Voir la demo
+              </Button>
+            </div>
+            <p className="mt-4 text-sm text-slate-500">
+              Essai gratuit 14 jours - Aucune carte bancaire requise
+            </p>
+          </div>
+
+          <div className="mt-20 relative">
+            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10 pointer-events-none h-40 bottom-0 top-auto" />
+            <div className="bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-800">
+              <div className="flex items-center gap-2 px-4 py-3 bg-slate-800 border-b border-slate-700">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <span className="ml-4 text-sm text-slate-400">dashboard.app.com</span>
+              </div>
+              <div className="p-6 bg-slate-900">
+                <div className="grid grid-cols-4 gap-4 mb-6">
+                  {[
+                    { label: 'Revenus', value: '124,500', trend: '+12.5%' },
+                    { label: 'Utilisateurs', value: '8,420', trend: '+8.2%' },
+                    { label: 'Conversion', value: '3.24%', trend: '+2.1%' },
+                    { label: 'Satisfaction', value: '98%', trend: '+0.5%' },
+                  ].map((stat) => (
+                    <div key={stat.label} className="bg-slate-800 rounded-lg p-4">
+                      <p className="text-slate-400 text-sm">{stat.label}</p>
+                      <p className="text-white text-2xl font-bold mt-1">{stat.value}</p>
+                      <p className="text-green-400 text-sm mt-1">{stat.trend}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="h-48 bg-slate-800 rounded-lg flex items-end justify-around px-6 pb-4">
+                  {[40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 88].map((h, i) => (
+                    <div
+                      key={i}
+                      className="w-6 bg-gradient-to-t from-slate-600 to-slate-500 rounded-t"
+                      style={{ height: `${h}%` }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 border-y border-slate-200">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-center text-sm font-medium text-slate-500 mb-8">
+            ILS NOUS FONT CONFIANCE
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
+            {logos.map((logo) => (
+              <div key={logo} className="text-xl font-bold text-slate-300 hover:text-slate-400 transition-colors">
+                {logo}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white" id="features">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-slate-500 tracking-wide uppercase">
+              Fonctionnalites
+            </span>
+            <h2 className="mt-4 text-4xl font-bold text-slate-900">
+              Tout ce dont vous avez besoin
+            </h2>
+            <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+              Une suite complete d'outils pour gerer, analyser et developper votre activite.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="group p-8 rounded-2xl bg-slate-50 hover:bg-slate-100 transition-all duration-300 hover:shadow-lg"
+              >
+                <div className="w-14 h-14 bg-slate-900 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <p className="text-5xl font-bold text-white">{stat.value}</p>
+                <p className="mt-2 text-slate-400">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FEF3C7] text-[#92400E] rounded-full text-sm font-medium mb-8">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F59E0B] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F59E0B]"></span>
-                </span>
-                Essai gratuit 14 jours — sans carte bancaire
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1E3A5F] leading-[1.1] tracking-tight">
-                Vous perdez du temps sur vos chantiers.{' '}
-                <span className="text-[#F59E0B]">Tous les jours.</span>
-              </h1>
-
-              <p className="mt-6 text-xl text-[#6B7280] leading-relaxed max-w-lg">
-                Devis, planning, relances… si tout est dans votre tête ou sur Excel, vous perdez de l'argent.
+              <span className="text-sm font-semibold text-slate-500 tracking-wide uppercase">
+                Pourquoi nous choisir
+              </span>
+              <h2 className="mt-4 text-4xl font-bold text-slate-900">
+                Concue pour les equipes ambitieuses
+              </h2>
+              <p className="mt-6 text-lg text-slate-600 leading-relaxed">
+                Notre plateforme est le fruit de 5 ans de R&D et des retours de milliers
+                d'entreprises. Chaque fonctionnalite a ete pensee pour maximiser votre productivite.
               </p>
 
-              <div className="mt-10 flex flex-col sm:flex-row gap-4">
-                <Link to="/signup">
-                  <button className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold text-lg rounded-full transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5">
-                    Essayer gratuitement 14 jours
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
-                </Link>
-                <a href="#features">
-                  <button className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-[#1E3A5F] text-[#1E3A5F] font-semibold text-lg rounded-full hover:bg-[#1E3A5F] hover:text-white transition-all duration-200">
-                    Voir comment ça marche
-                  </button>
-                </a>
-              </div>
-
-              <p className="mt-4 text-sm text-[#6B7280] flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-green-500" />
-                Aucune carte bancaire — prêt en 5 minutes
-              </p>
-            </div>
-
-            {/* Dashboard mockup */}
-            <div className="relative hidden lg:block">
-              <div className="absolute -inset-4 bg-gradient-to-br from-[#1E3A5F]/10 to-[#F59E0B]/10 rounded-3xl blur-xl" />
-              <div className="relative bg-white rounded-2xl shadow-2xl border border-[#E5E7EB] overflow-hidden">
-                <div className="flex items-center gap-2 px-4 py-3 bg-[#F7F9FC] border-b border-[#E5E7EB]">
-                  <div className="w-3 h-3 rounded-full bg-red-400" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                  <div className="w-3 h-3 rounded-full bg-green-400" />
-                  <span className="ml-3 text-xs text-[#6B7280] font-medium">BATIUM — Tableau de bord</span>
-                </div>
-                <div className="p-5">
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    {[
-                      { label: 'Chantiers actifs', value: '12', trend: '+3 ce mois', color: 'text-[#1E3A5F]' },
-                      { label: 'Devis en attente', value: '5', trend: '2 à relancer', color: 'text-[#F59E0B]' },
-                      { label: 'Factures envoyées', value: '28 450€', trend: '+12% vs mois dernier', color: 'text-green-600' },
-                      { label: 'Tâches en retard', value: '3', trend: 'À traiter', color: 'text-red-500' },
-                    ].map((card) => (
-                      <div key={card.label} className="bg-[#F7F9FC] rounded-xl p-4 border border-[#E5E7EB]">
-                        <p className="text-xs text-[#6B7280] font-medium">{card.label}</p>
-                        <p className={`text-2xl font-bold mt-1 ${card.color}`}>{card.value}</p>
-                        <p className="text-xs text-[#6B7280] mt-1">{card.trend}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="bg-[#F7F9FC] rounded-xl p-4 border border-[#E5E7EB]">
-                    <p className="text-xs font-semibold text-[#1E3A5F] mb-3">Chantiers en cours</p>
-                    <div className="space-y-2">
-                      {[
-                        { name: 'Rénovation Dupont', progress: 75, status: 'En cours' },
-                        { name: 'Extension Martin', progress: 40, status: 'En cours' },
-                        { name: 'Toiture Bernard', progress: 90, status: 'Finition' },
-                      ].map((item) => (
-                        <div key={item.name} className="flex items-center gap-3">
-                          <div className="flex-1">
-                            <div className="flex justify-between mb-1">
-                              <span className="text-xs font-medium text-[#1E3A5F]">{item.name}</span>
-                              <span className="text-xs text-[#6B7280]">{item.progress}%</span>
-                            </div>
-                            <div className="h-1.5 bg-[#E5E7EB] rounded-full">
-                              <div
-                                className="h-1.5 bg-[#F59E0B] rounded-full transition-all"
-                                style={{ width: `${item.progress}%` }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+              <div className="mt-10 space-y-6">
+                {[
+                  {
+                    icon: TrendingUp,
+                    title: 'Croissance acceleree',
+                    description: 'Nos clients constatent en moyenne 35% de croissance apres 6 mois.',
+                  },
+                  {
+                    icon: Clock,
+                    title: 'Gain de temps',
+                    description: 'Automatisez les taches repetitives et liberez 10h par semaine.',
+                  },
+                  {
+                    icon: Layers,
+                    title: 'Integration native',
+                    description: 'Connectez tous vos outils en quelques clics, sans code.',
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="flex gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                      <item.icon className="w-6 h-6 text-slate-700" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-slate-900">{item.title}</h3>
+                      <p className="mt-1 text-slate-600">{item.description}</p>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PAIN SECTION */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1E3A5F]">Soyons honnêtes.</h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-5 mb-12">
-            {[
-              { icon: Bell, text: 'Vous oubliez des relances' },
-              { icon: AlertTriangle, text: 'Vos chantiers sont mal suivis' },
-              { icon: BrainCircuit, text: 'Vous perdez du temps à chercher des infos' },
-              { icon: TrendingDown, text: 'Vous gérez tout dans votre tête' },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-4 p-5 bg-red-50 border border-red-100 rounded-2xl">
-                <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-5 h-5 text-red-500" />
-                </div>
-                <span className="text-[#1E3A5F] font-medium">{text}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <p className="text-xl sm:text-2xl font-bold text-[#1E3A5F]">
-              Et ça vous coûte du temps. Et de l'argent.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SOLUTION */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F7F9FC]">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#1E3A5F]/10 text-[#1E3A5F] rounded-full text-sm font-semibold mb-6">
-            La solution
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#1E3A5F] mb-6">
-            BATIUM fait le boulot pour vous.
-          </h2>
-          <p className="text-lg text-[#6B7280] max-w-2xl mx-auto leading-relaxed">
-            Tout est centralisé. Tout est automatisé. Vous gardez le contrôle sans y passer vos soirées.
-          </p>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white" id="features">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1E3A5F]">Ce que BATIUM fait pour vous</h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: FileText,
-                title: 'Vos devis en 2 minutes',
-                desc: 'Générez des devis professionnels en quelques clics. Plus de copier-coller, plus d\'oublis.',
-              },
-              {
-                icon: CalendarCheck,
-                title: 'Votre planning clair, enfin',
-                desc: 'Visualisez tous vos chantiers sur un seul écran. Qui fait quoi, quand, où.',
-              },
-              {
-                icon: RefreshCw,
-                title: 'Relances automatiques',
-                desc: 'BATIUM relance vos clients à votre place. Vous ne perdez plus d\'argent par oubli.',
-              },
-              {
-                icon: LayoutGrid,
-                title: 'Vue complète de vos chantiers',
-                desc: 'Avancement, équipes, dépenses — tout en un seul endroit, en temps réel.',
-              },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="bg-white border border-[#E5E7EB] rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-1"
-              >
-                <div className="w-12 h-12 bg-[#FEF3C7] rounded-xl flex items-center justify-center mb-5">
-                  <Icon className="w-6 h-6 text-[#F59E0B]" />
-                </div>
-                <h3 className="text-lg font-bold text-[#1E3A5F] mb-2">{title}</h3>
-                <p className="text-sm text-[#6B7280] leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* BEFORE / AFTER */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F7F9FC]">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1E3A5F]">Avant. Après.</h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            {/* Before */}
-            <div className="bg-[#FEF2F2] border border-red-200 rounded-2xl p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                  <X className="w-5 h-5 text-red-500" />
-                </div>
-                <span className="text-lg font-bold text-red-700">Avant BATIUM</span>
-              </div>
-              <ul className="space-y-4">
-                {['Stress constant', 'Oublis de relances', 'Retards sur chantiers', 'Désorganisation totale'].map((item) => (
-                  <li key={item} className="flex items-center gap-3">
-                    <XCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                    <span className="text-red-800 font-medium">{item}</span>
-                  </li>
                 ))}
-              </ul>
+              </div>
             </div>
 
-            {/* After */}
-            <div className="bg-[#EFF6FF] border border-blue-200 rounded-2xl p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-[#1E3A5F]/10 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-5 h-5 text-[#1E3A5F]" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-200 to-slate-300 rounded-3xl transform rotate-3" />
+              <div className="relative bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900">Configuration terminee</p>
+                    <p className="text-sm text-slate-500">Votre espace est pret</p>
+                  </div>
                 </div>
-                <span className="text-lg font-bold text-[#1E3A5F]">Avec BATIUM</span>
+                <div className="space-y-4">
+                  {[
+                    'Compte cree',
+                    'Equipe invitee',
+                    'Donnees importees',
+                    'Integrations connectees',
+                    'Premier rapport genere',
+                  ].map((step, i) => (
+                    <div key={step} className="flex items-center gap-3">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                        <CheckCircle className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-slate-700">{step}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-6 text-sm text-slate-500">
+                  Temps moyen de configuration : 15 minutes
+                </p>
               </div>
-              <ul className="space-y-4">
-                {['Tout est clair', 'Tout est organisé', 'Tout est automatisé', 'Vous êtes sous contrôle'].map((item) => (
-                  <li key={item} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-[#1E3A5F] flex-shrink-0" />
-                    <span className="text-[#1E3A5F] font-medium">{item}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TRUST / TESTIMONIALS */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold text-[#6B7280] uppercase tracking-widest mb-4">Ils nous font confiance</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1E3A5F]">
-              Des centaines d'entreprises du BTP simplifient déjà leur gestion
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50" id="testimonials">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-slate-500 tracking-wide uppercase">
+              Temoignages
+            </span>
+            <h2 className="mt-4 text-4xl font-bold text-slate-900">
+              Ce que nos clients disent
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                quote: 'En 3 semaines, j\'ai récupéré au moins 6 heures par semaine. Je n\'envoie plus un seul devis à la main.',
-                author: 'Julien R.',
-                role: 'Gérant, Entreprise de maçonnerie',
-                avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-              },
-              {
-                quote: 'Mes chantiers sont enfin suivis correctement. Plus d\'oublis, plus de clients mécontents.',
-                author: 'Pascal M.',
-                role: 'Artisan électricien, 8 salariés',
-                avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-              },
-              {
-                quote: 'Simple, efficace. J\'aurais dû commencer bien plus tôt. Mon comptable m\'a remercié.',
-                author: 'Nathalie V.',
-                role: 'Dirigeante, PME BTP 15 personnes',
-                avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-              },
-            ].map((t) => (
-              <div key={t.author} className="bg-[#F7F9FC] border border-[#E5E7EB] rounded-2xl p-6 hover:shadow-md transition-shadow">
-                <div className="flex gap-1 mb-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.author}
+                className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex gap-1 mb-6">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-[#1E3A5F] leading-relaxed mb-6 font-medium">"{t.quote}"</p>
-                <div className="flex items-center gap-3">
-                  <img src={t.avatar} alt={t.author} className="w-10 h-10 rounded-full object-cover" />
+                <p className="text-slate-700 leading-relaxed mb-8">
+                  "{testimonial.quote}"
+                </p>
+                <div className="flex items-center gap-4">
+                  <img
+                    src={testimonial.avatar}
+                    alt={testimonial.author}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
                   <div>
-                    <p className="text-sm font-semibold text-[#1E3A5F]">{t.author}</p>
-                    <p className="text-xs text-[#6B7280]">{t.role}</p>
+                    <p className="font-semibold text-slate-900">{testimonial.author}</p>
+                    <p className="text-sm text-slate-500">
+                      {testimonial.role}, {testimonial.company}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -357,135 +462,155 @@ export function Landing() {
         </div>
       </section>
 
-      {/* PRICING */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F7F9FC]" id="pricing">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1E3A5F] mb-3">
-              Un outil. Un prix. Pas de surprise.
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white" id="pricing">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-slate-500 tracking-wide uppercase">
+              Tarifs
+            </span>
+            <h2 className="mt-4 text-4xl font-bold text-slate-900">
+              Un prix adapte a chaque etape
             </h2>
-            <p className="text-[#6B7280]">Tout ce dont vous avez besoin, dans un seul abonnement.</p>
+            <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+              Commencez gratuitement, evoluez selon vos besoins. Tous les plans incluent
+              l'essai gratuit de 14 jours.
+            </p>
           </div>
 
-          <div className="relative bg-white rounded-2xl shadow-xl border-2 border-[#F59E0B] p-10">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-              <span className="px-5 py-1.5 bg-[#F59E0B] text-white text-sm font-bold rounded-full shadow">
-                Le plus populaire
-              </span>
-            </div>
-
-            <div className="mb-2">
-              <span className="text-sm font-semibold text-[#6B7280] uppercase tracking-widest">BATIUM PRO</span>
-            </div>
-            <div className="flex items-end justify-center gap-1 mb-2">
-              <span className="text-6xl font-bold text-[#1E3A5F]">49,99</span>
-              <span className="text-xl text-[#6B7280] mb-2">€/mois</span>
-            </div>
-            <p className="text-sm text-[#6B7280] mb-8">Facturé mensuellement. Résiliable à tout moment.</p>
-
-            <ul className="space-y-4 mb-10 text-left">
-              {[
-                'Chantiers illimités',
-                'Devis + factures illimitées',
-                'Planning visuel',
-                'Relances automatiques',
-                'Multi-utilisateurs',
-                'Support prioritaire',
-              ].map((f) => (
-                <li key={f} className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-[#F59E0B] flex-shrink-0" />
-                  <span className="text-[#1E3A5F] font-medium">{f}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Link to="/signup">
-              <button className="w-full py-4 bg-[#F59E0B] hover:bg-[#D97706] text-white font-bold text-lg rounded-full transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5">
-                Commencer maintenant
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* RISK REVERSAL */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#1E3A5F] mb-10">Essayez sans risque</h2>
-
-          <div className="grid sm:grid-cols-3 gap-6">
-            {[
-              { icon: Clock, title: '14 jours gratuits', desc: 'Accès complet à toutes les fonctionnalités, sans limitation.' },
-              { icon: CreditCard, title: 'Pas de carte bancaire', desc: 'Aucune information de paiement requise pour démarrer.' },
-              { icon: ShieldCheck, title: 'Résiliation à tout moment', desc: 'Pas d\'engagement. Vous arrêtez quand vous voulez.' },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-[#F7F9FC] border border-[#E5E7EB] rounded-2xl p-6">
-                <div className="w-12 h-12 bg-[#1E3A5F]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-6 h-6 text-[#1E3A5F]" />
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {pricingPlans.map((plan) => (
+              <div
+                key={plan.name}
+                className={`relative rounded-2xl p-8 ${
+                  plan.popular
+                    ? 'bg-slate-900 text-white ring-4 ring-slate-900 scale-105'
+                    : 'bg-white border border-slate-200'
+                }`}
+              >
+                {plan.popular && (
+                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-white text-slate-900 text-sm font-medium rounded-full shadow">
+                    Le plus populaire
+                  </span>
+                )}
+                <h3 className={`text-xl font-semibold ${plan.popular ? 'text-white' : 'text-slate-900'}`}>
+                  {plan.name}
+                </h3>
+                <p className={`mt-2 text-sm ${plan.popular ? 'text-slate-300' : 'text-slate-500'}`}>
+                  {plan.description}
+                </p>
+                <div className="mt-6 mb-8">
+                  <span className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-slate-900'}`}>
+                    {plan.price.includes('mesure') ? '' : ''}{plan.price}
+                  </span>
+                  {plan.period && (
+                    <span className={plan.popular ? 'text-slate-300' : 'text-slate-500'}>
+                      {plan.period}
+                    </span>
+                  )}
                 </div>
-                <h3 className="font-bold text-[#1E3A5F] mb-2">{title}</h3>
-                <p className="text-sm text-[#6B7280]">{desc}</p>
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <CheckCircle className={`w-5 h-5 flex-shrink-0 ${plan.popular ? 'text-green-400' : 'text-green-500'}`} />
+                      <span className={plan.popular ? 'text-slate-200' : 'text-slate-600'}>
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <Link to="/signup">
+                  <Button
+                    fullWidth
+                    variant={plan.popular ? 'primary' : 'outline'}
+                    className={plan.popular ? 'bg-white text-slate-900 hover:bg-slate-100' : ''}
+                  >
+                    {plan.cta}
+                  </Button>
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F7F9FC]" id="faq">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50" id="faq">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1E3A5F]">Questions fréquentes</h2>
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-slate-500 tracking-wide uppercase">
+              FAQ
+            </span>
+            <h2 className="mt-4 text-4xl font-bold text-slate-900">
+              Questions frequentes
+            </h2>
           </div>
-          <div className="bg-white rounded-2xl border border-[#E5E7EB] px-8">
+
+          <div className="bg-white rounded-2xl border border-slate-200 px-8">
             {faqs.map((faq) => (
               <FAQItem key={faq.question} question={faq.question} answer={faq.answer} />
             ))}
           </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-slate-600 mb-4">Vous avez d'autres questions ?</p>
+            <Button variant="outline">
+              <Headphones className="w-4 h-4 mr-2" />
+              Contacter le support
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#1E3A5F]">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-900">
         <div className="max-w-4xl mx-auto text-center">
-          <HardHat className="w-14 h-14 text-[#F59E0B] mx-auto mb-8" />
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
-            Continuez comme avant…<br />
-            ou reprenez le contrôle.
+          <Building2 className="w-16 h-16 text-slate-700 mx-auto mb-8" />
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+            Pret a transformer votre business ?
           </h2>
-          <p className="text-xl text-blue-200 mb-10">
-            5 minutes pour commencer. Des heures gagnées chaque semaine.
+          <p className="text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
+            Rejoignez les milliers d'entreprises qui ont deja franchi le cap.
+            Commencez votre essai gratuit aujourd'hui.
           </p>
-          <Link to="/signup">
-            <button className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-[#F59E0B] hover:bg-[#D97706] text-white font-bold text-xl rounded-full transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-1">
-              Essayer gratuitement 14 jours
-              <ArrowRight className="w-6 h-6" />
-            </button>
-          </Link>
-          <p className="mt-5 text-sm text-blue-300">Aucune carte bancaire — prêt en 5 minutes</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/signup">
+              <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100">
+                Demarrer gratuitement
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+            <Button variant="outline" size="lg" className="border-slate-600 text-slate-300 hover:bg-slate-800">
+              Demander une demo
+            </Button>
+          </div>
+          <p className="mt-6 text-sm text-slate-500">
+            Configuration en 5 minutes - Aucune carte bancaire requise
+          </p>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-[#1E3A5F] border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-slate-900 border-t border-slate-800 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-10 mb-10">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <HardHat className="w-7 h-7 text-[#F59E0B]" />
-                <span className="font-bold text-xl text-white">BATIUM</span>
+                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                  <Building2 className="w-5 h-5 text-slate-900" />
+                </div>
+                <span className="font-bold text-white">AppName</span>
               </div>
-              <p className="text-blue-300 text-sm leading-relaxed">
-                Le logiciel de gestion pensé pour les entreprises du BTP. Simple, rapide, efficace.
+              <p className="text-slate-400 text-sm leading-relaxed">
+                La plateforme qui accelere votre business. Simplifiez vos operations,
+                automatisez vos processus.
               </p>
             </div>
 
             <div>
               <h4 className="font-semibold text-white mb-4">Produit</h4>
-              <ul className="space-y-2.5">
-                {['Fonctionnalités', 'Tarifs', 'Nouveautés'].map((item) => (
+              <ul className="space-y-3">
+                {['Fonctionnalites', 'Tarifs', 'Integrations', 'API', 'Changelog'].map((item) => (
                   <li key={item}>
-                    <a href="#" className="text-blue-300 hover:text-white transition-colors text-sm">{item}</a>
+                    <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">
+                      {item}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -493,30 +618,46 @@ export function Landing() {
 
             <div>
               <h4 className="font-semibold text-white mb-4">Ressources</h4>
-              <ul className="space-y-2.5">
-                {['Guide de démarrage', 'Blog', 'Support'].map((item) => (
+              <ul className="space-y-3">
+                {['Documentation', 'Guides', 'Blog', 'Communaute', 'Webinaires'].map((item) => (
                   <li key={item}>
-                    <a href="#" className="text-blue-300 hover:text-white transition-colors text-sm">{item}</a>
+                    <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">
+                      {item}
+                    </a>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold text-white mb-4">Légal</h4>
-              <ul className="space-y-2.5">
-                {['Mentions légales', 'Confidentialité', 'CGU'].map((item) => (
+              <h4 className="font-semibold text-white mb-4">Entreprise</h4>
+              <ul className="space-y-3">
+                {['A propos', 'Carrieres', 'Contact', 'Partenaires', 'Mentions legales'].map((item) => (
                   <li key={item}>
-                    <a href="#" className="text-blue-300 hover:text-white transition-colors text-sm">{item}</a>
+                    <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">
+                      {item}
+                    </a>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-blue-400 text-sm">© 2026 BATIUM. Tous droits réservés.</p>
-            <p className="text-blue-400 text-sm">Fait pour les pros du BTP 🏗️</p>
+          <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-slate-500 text-sm">
+              2024 AppName. Tous droits reserves.
+            </p>
+            <div className="flex gap-6">
+              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">
+                Confidentialite
+              </a>
+              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">
+                CGU
+              </a>
+              <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">
+                Cookies
+              </a>
+            </div>
           </div>
         </div>
       </footer>
