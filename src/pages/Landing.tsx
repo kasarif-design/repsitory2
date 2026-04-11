@@ -196,23 +196,23 @@ export function Landing() {
     <div className="min-h-screen bg-night">
       <PublicHeader />
 
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: '#E0E1DD' }}>
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-night-50 to-night">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 text-night rounded-full text-sm font-medium mb-8 border border-night/20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-night-50 text-light-400 rounded-full text-sm font-medium mb-8 border border-night-100">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-neon"></span>
               </span>
               Nouveau : Integrations Zapier disponibles
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-night tracking-tight leading-[1.1]">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-light-300 tracking-tight leading-[1.1]">
               La plateforme qui
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-electric to-cyan">
                 accelere votre business
               </span>
             </h1>
-            <p className="mt-8 text-xl text-night/70 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-8 text-xl text-light-500 max-w-2xl mx-auto leading-relaxed">
               Centralisez vos operations, automatisez vos workflows et prenez des decisions
               eclairees grace a des donnees en temps reel. Rejoignez 10 000+ entreprises.
             </p>
@@ -228,13 +228,13 @@ export function Landing() {
                 Voir la demo
               </Button>
             </div>
-            <p className="mt-4 text-sm text-night/60">
+            <p className="mt-4 text-sm text-light-500">
               Essai gratuit 14 jours - Aucune carte bancaire requise
             </p>
           </div>
 
           <div className="mt-20 relative">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#E0E1DD] via-transparent to-transparent z-10 pointer-events-none h-40 bottom-0 top-auto" />
+            <div className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent z-10 pointer-events-none h-40 bottom-0 top-auto" />
             <div className="bg-night-50 rounded-2xl shadow-2xl overflow-hidden border border-night-100">
               <div className="flex items-center gap-2 px-4 py-3 bg-night-100 border-b border-night-200">
                 <div className="w-3 h-3 rounded-full bg-red-500" />
