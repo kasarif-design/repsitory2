@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { LogOut, Settings, User, LayoutDashboard } from 'lucide-react';
+import { LogOut, Settings, User, LayoutDashboard, HardHat } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/Button';
 import { useState, useRef, useEffect } from 'react';
@@ -105,25 +105,57 @@ export function Header() {
 }
 
 export function PublicHeader() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="absolute top-0 left-0 right-0 z-50">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-[#E5E7EB]'
+          : 'bg-transparent'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="Logo" className="w-14 h-14" />
-            <span className="font-bold text-xl text-slate-900">BATIUM</span>
+            <img src={logo} alt="Logo" className="w-10 h-10" />
+            <span className={`font-bold text-xl transition-colors ${scrolled ? 'text-[#1E3A5F]' : 'text-[#1E3A5F]'}`}>
+              BATIUM
+            </span>
           </Link>
 
-          <div className="flex items-center gap-4">
+          <nav className="hidden md:flex items-center gap-8">
+            {[
+              { label: 'Fonctionnalités', href: '#features' },
+              { label: 'Tarifs', href: '#pricing' },
+              { label: 'FAQ', href: '#faq' },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-sm font-medium text-[#6B7280] hover:text-[#1E3A5F] transition-colors"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
             <Link to="/login">
-              <Button variant="ghost" size="sm">
+              <button className="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-[#1E3A5F] hover:text-[#F59E0B] transition-colors">
                 Connexion
-              </Button>
+              </button>
             </Link>
             <Link to="/signup">
-              <Button size="sm">
-                Commencer
-              </Button>
+              <button className="inline-flex items-center justify-center px-5 py-2.5 bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold text-sm rounded-full transition-all duration-200 shadow-sm hover:shadow hover:-translate-y-0.5">
+                Essai gratuit
+              </button>
             </Link>
           </div>
         </div>
