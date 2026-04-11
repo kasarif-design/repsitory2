@@ -3,6 +3,7 @@ import { LogOut, Settings, User, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/Button';
 import { useState, useRef, useEffect } from 'react';
+import logo from '../../assets/logo.png';
 
 export function Header() {
   const { user, profile, signOut } = useAuth();
@@ -109,9 +110,7 @@ export function PublicHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
-              <LayoutDashboard className="w-6 h-6 text-white" />
-            </div>
+            <img src={logo} alt="Logo" className="w-10 h-10" />
             <span className="font-bold text-xl text-slate-900">AppName</span>
           </Link>
 
