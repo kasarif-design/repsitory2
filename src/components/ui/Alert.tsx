@@ -12,28 +12,28 @@ interface AlertProps {
 
 const variantConfig: Record<AlertVariant, { bg: string; border: string; text: string; icon: ReactNode }> = {
   info: {
-    bg: 'bg-blue-50',
-    border: 'border-blue-200',
-    text: 'text-blue-800',
-    icon: <Info className="w-5 h-5 text-blue-500" />,
+    bg: 'bg-electric/10',
+    border: 'border-electric/30',
+    text: 'text-electric-200',
+    icon: <Info className="w-5 h-5 text-electric" />,
   },
   success: {
-    bg: 'bg-green-50',
-    border: 'border-green-200',
-    text: 'text-green-800',
-    icon: <CheckCircle className="w-5 h-5 text-green-500" />,
+    bg: 'bg-neon/10',
+    border: 'border-neon/30',
+    text: 'text-neon-400',
+    icon: <CheckCircle className="w-5 h-5 text-neon" />,
   },
   warning: {
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
-    text: 'text-amber-800',
-    icon: <AlertCircle className="w-5 h-5 text-amber-500" />,
+    bg: 'bg-amber-500/10',
+    border: 'border-amber-500/30',
+    text: 'text-amber-300',
+    icon: <AlertCircle className="w-5 h-5 text-amber-400" />,
   },
   error: {
-    bg: 'bg-red-50',
-    border: 'border-red-200',
-    text: 'text-red-800',
-    icon: <XCircle className="w-5 h-5 text-red-500" />,
+    bg: 'bg-red-500/10',
+    border: 'border-red-500/30',
+    text: 'text-red-300',
+    icon: <XCircle className="w-5 h-5 text-red-400" />,
   },
 };
 
