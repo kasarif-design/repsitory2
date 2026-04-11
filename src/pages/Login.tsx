@@ -46,10 +46,10 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-night flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link to="/" className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-12 h-12 bg-electric rounded-xl flex items-center justify-center">
+          <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center">
             <LayoutDashboard className="w-7 h-7 text-white" />
           </div>
         </Link>
@@ -93,7 +93,7 @@ export function Login() {
                 <div className="mt-2 text-right">
                   <Link
                     to="/forgot-password"
-                    className="text-sm text-light-500 hover:text-electric transition-colors"
+                    className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
                   >
                     Mot de passe oublie ?
                   </Link>
@@ -107,10 +107,10 @@ export function Login() {
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-night-100" />
+                <div className="w-full border-t border-slate-200" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-night-50 text-light-500">ou</span>
+                <span className="px-4 bg-white text-slate-500">ou</span>
               </div>
             </div>
 
@@ -143,9 +143,9 @@ export function Login() {
               Continuer avec Google
             </Button>
 
-            <p className="mt-6 text-center text-sm text-light-500">
+            <p className="mt-6 text-center text-sm text-slate-600">
               Pas encore de compte ?{' '}
-              <Link to="/signup" className="font-medium text-electric hover:underline">
+              <Link to="/signup" className="font-medium text-slate-900 hover:underline">
                 Creer un compte
               </Link>
             </p>

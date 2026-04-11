@@ -55,8 +55,8 @@ export function AppLayout({ children, title, description, actions }: AppLayoutPr
         onClick={onClick}
         className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
           isActive
-            ? 'bg-electric text-white'
-            : 'text-light-500 hover:bg-night-100 hover:text-light-300'
+            ? 'bg-slate-900 text-white'
+            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
         }`}
       >
         <item.icon className="w-5 h-5" />
@@ -66,19 +66,19 @@ export function AppLayout({ children, title, description, actions }: AppLayoutPr
   };
 
   return (
-    <div className="min-h-screen bg-night">
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-night-50 border-b border-night-100 px-4 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-slate-50">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-slate-200 px-4 h-16 flex items-center justify-between">
         <button
           onClick={() => setSidebarOpen(true)}
-          className="p-2 rounded-lg hover:bg-night-100 text-light-400"
+          className="p-2 rounded-lg hover:bg-slate-100"
         >
           <Menu className="w-5 h-5" />
         </button>
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-electric rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center">
             <Building2 className="w-5 h-5 text-white" />
           </div>
-          <span className="font-semibold text-light-300">BATIUM</span>
+          <span className="font-semibold text-slate-900">AppName</span>
         </div>
         <div className="w-10" />
       </div>
@@ -86,20 +86,20 @@ export function AppLayout({ children, title, description, actions }: AppLayoutPr
       {sidebarOpen && (
         <div className="lg:hidden fixed inset-0 z-50">
           <div
-            className="absolute inset-0 bg-night/80"
+            className="absolute inset-0 bg-slate-900/50"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="absolute left-0 top-0 bottom-0 w-72 bg-night-50 border-r border-night-100">
-            <div className="h-16 flex items-center justify-between px-4 border-b border-night-100">
+          <div className="absolute left-0 top-0 bottom-0 w-72 bg-white">
+            <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-electric rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center">
                   <Building2 className="w-5 h-5 text-white" />
                 </div>
-                <span className="font-semibold text-light-300">BATIUM</span>
+                <span className="font-semibold text-slate-900">AppName</span>
               </div>
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="p-2 rounded-lg hover:bg-night-100 text-light-400"
+                className="p-2 rounded-lg hover:bg-slate-100"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -108,7 +108,7 @@ export function AppLayout({ children, title, description, actions }: AppLayoutPr
               {navigation.map((item) => (
                 <NavLink key={item.href} item={item} onClick={() => setSidebarOpen(false)} />
               ))}
-              <div className="pt-4 mt-4 border-t border-night-100 space-y-1">
+              <div className="pt-4 mt-4 border-t border-slate-200 space-y-1">
                 {secondaryNavigation.map((item) => (
                   <NavLink key={item.href} item={item} onClick={() => setSidebarOpen(false)} />
                 ))}
@@ -118,12 +118,12 @@ export function AppLayout({ children, title, description, actions }: AppLayoutPr
         </div>
       )}
 
-      <aside className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-64 lg:flex-col bg-night-50 border-r border-night-100">
-        <div className="h-16 flex items-center gap-2 px-6 border-b border-night-100">
-          <div className="w-8 h-8 bg-electric rounded-lg flex items-center justify-center">
+      <aside className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-64 lg:flex-col bg-white border-r border-slate-200">
+        <div className="h-16 flex items-center gap-2 px-6 border-b border-slate-200">
+          <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center">
             <Building2 className="w-5 h-5 text-white" />
           </div>
-          <span className="font-semibold text-light-300">BATIUM</span>
+          <span className="font-semibold text-slate-900">AppName</span>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
@@ -132,20 +132,20 @@ export function AppLayout({ children, title, description, actions }: AppLayoutPr
           ))}
         </nav>
 
-        <div className="p-4 border-t border-night-100 space-y-1">
+        <div className="p-4 border-t border-slate-200 space-y-1">
           {secondaryNavigation.map((item) => (
             <NavLink key={item.href} item={item} />
           ))}
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
           >
             <LogOut className="w-5 h-5" />
             Deconnexion
           </button>
         </div>
 
-        <div className="p-4 border-t border-night-100">
+        <div className="p-4 border-t border-slate-200">
           <div className="flex items-center gap-3 px-3 py-2">
             {profile?.avatar_url ? (
               <img
@@ -154,35 +154,35 @@ export function AppLayout({ children, title, description, actions }: AppLayoutPr
                 className="w-9 h-9 rounded-full object-cover"
               />
             ) : (
-              <div className="w-9 h-9 bg-night-200 rounded-full flex items-center justify-center">
-                <span className="text-xs font-medium text-light-400">{initials}</span>
+              <div className="w-9 h-9 bg-slate-200 rounded-full flex items-center justify-center">
+                <span className="text-xs font-medium text-slate-600">{initials}</span>
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-light-300 truncate">{displayName}</p>
-              <p className="text-xs text-light-500 truncate">{user?.email}</p>
+              <p className="text-sm font-medium text-slate-900 truncate">{displayName}</p>
+              <p className="text-xs text-slate-500 truncate">{user?.email}</p>
             </div>
           </div>
         </div>
       </aside>
 
       <div className="lg:pl-64">
-        <header className="hidden lg:block bg-night-50 border-b border-night-100">
+        <header className="hidden lg:block bg-white border-b border-slate-200">
           <div className="px-8 py-6">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-light-500">
-                <Link to="/dashboard" className="hover:text-light-300 transition-colors">
+              <div className="flex items-center gap-2 text-sm text-slate-500">
+                <Link to="/dashboard" className="hover:text-slate-700">
                   Accueil
                 </Link>
                 <ChevronRight className="w-4 h-4" />
-                <span className="text-light-300 font-medium">{title}</span>
+                <span className="text-slate-900 font-medium">{title}</span>
               </div>
               {actions}
             </div>
             <div className="mt-4">
-              <h1 className="text-2xl font-bold text-light-300">{title}</h1>
+              <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
               {description && (
-                <p className="mt-1 text-light-500">{description}</p>
+                <p className="mt-1 text-slate-600">{description}</p>
               )}
             </div>
           </div>
@@ -190,9 +190,9 @@ export function AppLayout({ children, title, description, actions }: AppLayoutPr
 
         <main className="p-4 lg:p-8 pt-20 lg:pt-8">
           <div className="lg:hidden mb-6">
-            <h1 className="text-2xl font-bold text-light-300">{title}</h1>
+            <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
             {description && (
-              <p className="mt-1 text-light-500">{description}</p>
+              <p className="mt-1 text-slate-600">{description}</p>
             )}
           </div>
           {children}
