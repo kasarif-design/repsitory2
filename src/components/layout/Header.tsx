@@ -111,7 +111,7 @@ export function PublicHeader() {
         <div className="flex justify-between items-center h-20">
           <Link to="/" className="flex items-center gap-2">
             <img src={logo} alt="Logo" className="w-20 h-20" />
-            <span className="font-bold text-xl text-slate-900">BATIUM</span>
+            <span className="hidden sm:block font-bold text-xl text-slate-900">BATIUM</span>
           </Link>
 
           <div className="flex items-center gap-4">
