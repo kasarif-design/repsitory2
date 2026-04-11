@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import logo from '../assets/logo.png';
 import { Button, Input, Card, CardHeader, CardTitle, CardDescription, CardContent, Alert } from '../components/ui';
 
 export function Login() {
@@ -49,9 +49,7 @@ export function Login() {
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link to="/" className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center">
-            <LayoutDashboard className="w-7 h-7 text-white" />
-          </div>
+          <img src={logo} alt="Batium" className="w-14 h-14 object-contain" />
         </Link>
 
         <Card className="shadow-lg">
