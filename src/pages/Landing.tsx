@@ -207,9 +207,9 @@ export function Landing() {
               </span>
               Nouveau : Integrations Zapier disponibles
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]" style={{color: '#0D1B2A'}}>
               Vos chantiers, sous contrôle.
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-500">
+              <span className="block" style={{color: '#3A86FF'}}>
                 Sans prise de tête.
               </span>
             </h1>
