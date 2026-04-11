@@ -196,8 +196,9 @@ export function Landing() {
     <div className="min-h-screen bg-white">
       <PublicHeader />
 
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white">
-        <div className="max-w-7xl mx-auto">
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0 z-0" style={{backgroundImage: 'url(/pexels-thirdman-5583255.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.2}}></div>
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-medium mb-8">
               <span className="relative flex h-2 w-2">
