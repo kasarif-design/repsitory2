@@ -108,11 +108,13 @@ export function PublicHeader() {
   return (
     <header className="absolute top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-20 relative">
           <Link to="/" className="flex items-center gap-2">
             <img src={logo} alt="Logo" className="w-20 h-20" />
-            <span className="font-bold text-xl text-slate-900">BATIUM</span>
+            <span className="font-bold text-xl text-slate-900 hidden sm:inline">BATIUM</span>
           </Link>
+
+          <span className="font-bold text-xl text-slate-900 absolute left-1/2 -translate-x-1/2 hidden sm:block pointer-events-none">BATIUM</span>
 
           <div className="flex items-center gap-4">
             <Link to="/login">
