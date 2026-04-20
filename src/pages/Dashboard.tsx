@@ -18,8 +18,32 @@ import {
   ChevronRight,
   Wrench,
   Activity,
+  Sun,
+  Cloud,
+  CloudRain,
+  CloudSnow,
+  CloudLightning,
+  CloudFog,
+  CloudDrizzle,
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+
+type WeatherCondition = 'ensoleille' | 'nuageux' | 'pluie' | 'orage' | 'neige' | 'brouillard' | 'bruine';
+
+const WEATHER_CONFIG: Record<WeatherCondition, { label: string; icon: React.ElementType; color: string; bg: string }> = {
+  ensoleille: { label: 'Ensoleille', icon: Sun,           color: 'text-amber-500',  bg: 'bg-amber-50' },
+  nuageux:    { label: 'Nuageux',    icon: Cloud,         color: 'text-slate-500',  bg: 'bg-slate-100' },
+  pluie:      { label: 'Pluie',      icon: CloudRain,     color: 'text-blue-500',   bg: 'bg-blue-50' },
+  orage:      { label: 'Orage',      icon: CloudLightning,color: 'text-amber-600',  bg: 'bg-amber-50' },
+  neige:      { label: 'Neige',      icon: CloudSnow,     color: 'text-sky-500',    bg: 'bg-sky-50' },
+  brouillard: { label: 'Brouillard', icon: CloudFog,      color: 'text-slate-400',  bg: 'bg-slate-100' },
+  bruine:     { label: 'Bruine',     icon: CloudDrizzle,  color: 'text-blue-400',   bg: 'bg-blue-50' },
+};
+
+// Donnees simulees en attendant la cle API meteo
+const MOCK_WEATHER: { condition: WeatherCondition; temp: number; ville: string } = {
+  condition: 'nuageux', temp: 14, ville: 'Paris',
+};
 
 const MONTHS_FR = ['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
 const DAYS_SHORT = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
@@ -123,8 +147,32 @@ export default function Dashboard() {
     { label: 'Budget total', value: loading ? '—' : formatEuro(totalBudget), change: 'portefeuille actif', icon: Euro, color: 'bg-slate-100 text-slate-600' },
   ];
 
+  const weather = MOCK_WEATHER;
+  const WeatherIcon = WEATHER_CONFIG[weather.condition].icon;
+  const weatherColor = WEATHER_CONFIG[weather.condition].color;
+  const weatherBg = WEATHER_CONFIG[weather.condition].bg;
+  const weatherLabel = WEATHER_CONFIG[weather.condition].label;
+
   return (
     <AppLayout title="Tableau de bord" description={`${greeting}, ${displayName}. Voici l'etat de votre entreprise.`}>
+
+      <div className="flex items-center justify-end mb-6">
+        <div className={`inline-flex items-center gap-3 px-4 py-2.5 rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow`}>
+          <div className={`p-2 rounded-lg ${weatherBg}`}>
+            <WeatherIcon className={`w-5 h-5 ${weatherColor}`} />
+          </div>
+          <div className="text-left">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-xl font-bold text-slate-900 leading-none">{weather.temp}°C</span>
+              <span className="text-xs text-slate-500">{weatherLabel}</span>
+            </div>
+            <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
+              <MapPin className="w-3 h-3" />
+              {weather.ville}
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
         {quickStats.map((stat) => (
