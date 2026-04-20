@@ -1,14 +1,15 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
-  BarChart3,
-  FolderKanban,
+  HardHat,
   Users,
   Settings,
   LogOut,
   Menu,
   X,
   ChevronRight,
+  BarChart3,
+  Calendar,
 } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
@@ -17,9 +18,10 @@ import { ChatBot } from '../chat/ChatBot';
 
 const navigation = [
   { name: 'Tableau de bord', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Analytiques', href: '/analytics', icon: BarChart3 },
-  { name: 'Projets', href: '/projects', icon: FolderKanban },
-  { name: 'Equipe', href: '/team', icon: Users },
+  { name: 'Chantiers', href: '/chantiers', icon: HardHat },
+  { name: 'Equipes', href: '/equipes', icon: Users },
+  { name: 'Pilotage', href: '/pilotage', icon: BarChart3 },
+  { name: 'Planning', href: '/planning', icon: Calendar },
 ];
 
 const secondaryNavigation = [
