@@ -4,6 +4,7 @@ import {
   Star, Zap, MessageSquare, ChevronDown, AlertTriangle
 } from 'lucide-react';
 import logo from '../assets/logo.png';
+import buildingBg from '../assets/building-bg.jpg';
 
 const features = [
   {
@@ -140,8 +141,9 @@ export default function Landing() {
         </div>
       </header>
 
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white">
-        <div className="max-w-5xl mx-auto text-center">
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden" style={{ backgroundImage: `url(${buildingBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 bg-white/80" />
+        <div className="max-w-5xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-full text-sm text-blue-700 font-medium mb-8">
             <Zap className="w-3.5 h-3.5" />
             Logiciel de gestion BTP avec IA integree
