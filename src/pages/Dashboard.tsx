@@ -153,26 +153,28 @@ export default function Dashboard() {
   const weatherBg = WEATHER_CONFIG[weather.condition].bg;
   const weatherLabel = WEATHER_CONFIG[weather.condition].label;
 
-  return (
-    <AppLayout title="Tableau de bord" description={`${greeting}, ${displayName}. Voici l'etat de votre entreprise.`}>
-
-      <div className="flex items-center justify-end mb-6">
-        <div className={`inline-flex items-center gap-3 px-4 py-2.5 rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow`}>
-          <div className={`p-2 rounded-lg ${weatherBg}`}>
-            <WeatherIcon className={`w-5 h-5 ${weatherColor}`} />
-          </div>
-          <div className="text-left">
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-xl font-bold text-slate-900 leading-none">{weather.temp}°C</span>
-              <span className="text-xs text-slate-500">{weatherLabel}</span>
-            </div>
-            <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
-              <MapPin className="w-3 h-3" />
-              {weather.ville}
-            </p>
-          </div>
-        </div>
+  const weatherWidget = (
+    <div className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+      <div className={`p-2 rounded-lg ${weatherBg}`}>
+        <WeatherIcon className={`w-5 h-5 ${weatherColor}`} />
       </div>
+      <div className="text-left">
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-xl font-bold text-slate-900 leading-none">{weather.temp}°C</span>
+          <span className="text-xs text-slate-500">{weatherLabel}</span>
+        </div>
+        <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
+          <MapPin className="w-3 h-3" />
+          {weather.ville}
+        </p>
+      </div>
+    </div>
+  );
+
+  return (
+    <AppLayout title="Tableau de bord" description={`${greeting}, ${displayName}. Voici l'etat de votre entreprise.`} actions={weatherWidget}>
+
+      <div className="lg:hidden flex items-center justify-end mb-6">{weatherWidget}</div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
         {quickStats.map((stat) => (
