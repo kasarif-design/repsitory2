@@ -5,9 +5,37 @@ import { Card, CardContent, Button, Input } from '../components/ui';
 import {
   HardHat, Plus, Search, MapPin, Euro, Calendar, Users,
   ChevronRight, X, AlertCircle, CheckCircle2, Clock, PauseCircle,
-  Pencil, Trash2, TrendingUp, Building2
+  Pencil, Trash2, TrendingUp, Building2, Brain, AlertTriangle,
+  ThumbsUp, Zap, ChevronDown, ChevronUp, Loader2,
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+
+interface AnalysePredictiveChantier {
+  nom: string;
+  score_risque: number;
+  niveau_risque: 'faible' | 'modere' | 'eleve' | 'critique';
+  probabilite_retard: number;
+  probabilite_depassement_budget: number;
+  alertes: string[];
+  points_positifs: string[];
+  actions_recommandees: string[];
+  prediction_fin_reelle: string;
+}
+
+interface AnalysePredictive {
+  resume_global: string;
+  score_risque_global: number;
+  chantiers: AnalysePredictiveChantier[];
+  recommandations_prioritaires: string[];
+  ressources_critiques: string;
+}
+
+const RISQUE_CONFIG = {
+  faible:   { color: 'text-green-700',  bg: 'bg-green-50',  border: 'border-green-200', badge: 'bg-green-100 text-green-700' },
+  modere:   { color: 'text-amber-700',  bg: 'bg-amber-50',  border: 'border-amber-200', badge: 'bg-amber-100 text-amber-700' },
+  eleve:    { color: 'text-orange-700', bg: 'bg-orange-50', border: 'border-orange-200', badge: 'bg-orange-100 text-orange-700' },
+  critique: { color: 'text-red-700',    bg: 'bg-red-50',    border: 'border-red-200',   badge: 'bg-red-100 text-red-700' },
+};
 
 const STATUT_OPTIONS = [
   { value: 'planifie',  label: 'Planifie',   color: 'bg-slate-100 text-slate-700',   dot: 'bg-slate-400' },
@@ -64,6 +92,11 @@ export default function Chantiers() {
   const [error, setError] = useState('');
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [selected, setSelected] = useState<Chantier | null>(null);
+  const [showAnalyse, setShowAnalyse] = useState(false);
+  const [analyse, setAnalyse] = useState<AnalysePredictive | null>(null);
+  const [analyseLoading, setAnalyseLoading] = useState(false);
+  const [analyseError, setAnalyseError] = useState('');
+  const [expandedChantier, setExpandedChantier] = useState<string | null>(null);
 
   const load = async () => {
     if (!user) return;
@@ -106,6 +139,34 @@ export default function Chantiers() {
     await load(); setSaving(false); setShowModal(false);
   };
 
+  const lancerAnalyse = async () => {
+    setShowAnalyse(true);
+    setAnalyse(null);
+    setAnalyseError('');
+    setAnalyseLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyse-predictive`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${session?.access_token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}),
+        }
+      );
+      const json = await res.json();
+      if (!res.ok || json.error) throw new Error(json.error || 'Erreur inconnue');
+      setAnalyse(json.analysis);
+    } catch (e) {
+      setAnalyseError(e instanceof Error ? e.message : 'Erreur lors de l\'analyse');
+    } finally {
+      setAnalyseLoading(false);
+    }
+  };
+
   const confirmDelete = async () => {
     if (!deleteId) return;
     await supabase.from('chantiers').delete().eq('id', deleteId);
@@ -139,9 +200,18 @@ export default function Chantiers() {
             </button>
           ))}
         </div>
-        <Button onClick={openNew} className="flex-shrink-0">
-          <Plus className="w-4 h-4 mr-2" />Nouveau chantier
-        </Button>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <button
+            onClick={lancerAnalyse}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-blue-200 bg-blue-50 text-blue-700 text-sm font-medium hover:bg-blue-100 transition-colors"
+          >
+            <Brain className="w-4 h-4" />
+            Analyse predictive IA
+          </button>
+          <Button onClick={openNew}>
+            <Plus className="w-4 h-4 mr-2" />Nouveau chantier
+          </Button>
+        </div>
       </div>
 
       <div className="relative mb-6">
@@ -324,6 +394,186 @@ export default function Chantiers() {
             <div className="flex justify-end gap-3">
               <Button variant="outline" onClick={() => setDeleteId(null)}>Annuler</Button>
               <Button variant="danger" onClick={confirmDelete}>Supprimer</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showAnalyse && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b border-slate-100 sticky top-0 bg-white z-10">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-blue-50">
+                  <Brain className="w-5 h-5 text-blue-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-slate-900">Analyse predictive IA</h2>
+                  <p className="text-xs text-slate-500">Powered by GPT-4o — analyse de vos chantiers actifs</p>
+                </div>
+              </div>
+              <button onClick={() => setShowAnalyse(false)} className="p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                <X className="w-5 h-5 text-slate-500" />
+              </button>
+            </div>
+
+            <div className="p-6">
+              {analyseLoading && (
+                <div className="flex flex-col items-center justify-center py-16 gap-4">
+                  <Loader2 className="w-10 h-10 text-blue-500 animate-spin" />
+                  <p className="text-slate-600 font-medium">Analyse en cours...</p>
+                  <p className="text-sm text-slate-400">L'IA analyse vos chantiers, budgets, equipes et delais</p>
+                </div>
+              )}
+
+              {analyseError && (
+                <div className="flex items-start gap-3 p-4 bg-red-50 rounded-xl border border-red-200">
+                  <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-red-700">Erreur d'analyse</p>
+                    <p className="text-sm text-red-600 mt-1">{analyseError}</p>
+                  </div>
+                </div>
+              )}
+
+              {analyse && !analyseLoading && (
+                <div className="space-y-6">
+                  {/* Resume global */}
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-slate-900">Synthese executive</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-slate-500">Risque global</span>
+                        <span className={`px-3 py-1 rounded-full text-sm font-bold ${
+                          analyse.score_risque_global >= 70 ? 'bg-red-100 text-red-700' :
+                          analyse.score_risque_global >= 40 ? 'bg-amber-100 text-amber-700' :
+                          'bg-green-100 text-green-700'
+                        }`}>{analyse.score_risque_global}/100</span>
+                      </div>
+                    </div>
+                    <div className="h-2 bg-slate-200 rounded-full mb-3">
+                      <div
+                        className={`h-full rounded-full transition-all ${
+                          analyse.score_risque_global >= 70 ? 'bg-red-500' :
+                          analyse.score_risque_global >= 40 ? 'bg-amber-500' : 'bg-green-500'
+                        }`}
+                        style={{ width: `${analyse.score_risque_global}%` }}
+                      />
+                    </div>
+                    <p className="text-sm text-slate-700 leading-relaxed">{analyse.resume_global}</p>
+                  </div>
+
+                  {/* Chantiers */}
+                  <div>
+                    <h3 className="font-semibold text-slate-900 mb-3">Analyse par chantier</h3>
+                    <div className="space-y-3">
+                      {analyse.chantiers.map((c, i) => {
+                        const cfg = RISQUE_CONFIG[c.niveau_risque] || RISQUE_CONFIG.modere;
+                        const isExpanded = expandedChantier === c.nom;
+                        return (
+                          <div key={i} className={`rounded-xl border ${cfg.border} ${cfg.bg}`}>
+                            <button
+                              className="w-full flex items-center justify-between p-4 text-left"
+                              onClick={() => setExpandedChantier(isExpanded ? null : c.nom)}
+                            >
+                              <div className="flex items-center gap-3 min-w-0">
+                                <span className={`px-2.5 py-1 rounded-full text-xs font-semibold flex-shrink-0 ${cfg.badge}`}>
+                                  {c.niveau_risque.charAt(0).toUpperCase() + c.niveau_risque.slice(1)}
+                                </span>
+                                <span className="font-semibold text-slate-900 truncate">{c.nom}</span>
+                              </div>
+                              <div className="flex items-center gap-4 flex-shrink-0 ml-4">
+                                <div className="hidden sm:flex items-center gap-3 text-xs">
+                                  <span className="text-slate-500">Retard <strong className={cfg.color}>{c.probabilite_retard}%</strong></span>
+                                  <span className="text-slate-500">Budget <strong className={cfg.color}>{c.probabilite_depassement_budget}%</strong></span>
+                                </div>
+                                {isExpanded ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+                              </div>
+                            </button>
+
+                            {isExpanded && (
+                              <div className="px-4 pb-4 space-y-3 border-t border-black/5 pt-3">
+                                <div className="grid grid-cols-2 gap-3 text-xs">
+                                  <div className="bg-white/60 rounded-lg p-3">
+                                    <p className="text-slate-500 mb-1">Probabilite de retard</p>
+                                    <p className={`text-lg font-bold ${cfg.color}`}>{c.probabilite_retard}%</p>
+                                  </div>
+                                  <div className="bg-white/60 rounded-lg p-3">
+                                    <p className="text-slate-500 mb-1">Risque depassement budget</p>
+                                    <p className={`text-lg font-bold ${cfg.color}`}>{c.probabilite_depassement_budget}%</p>
+                                  </div>
+                                </div>
+
+                                {c.alertes.length > 0 && (
+                                  <div>
+                                    <p className="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-2"><AlertTriangle className="w-3.5 h-3.5 text-amber-500" />Alertes</p>
+                                    <ul className="space-y-1">
+                                      {c.alertes.map((a, j) => <li key={j} className="text-xs text-slate-700 flex gap-2"><span className="text-amber-500 flex-shrink-0">•</span>{a}</li>)}
+                                    </ul>
+                                  </div>
+                                )}
+
+                                {c.points_positifs.length > 0 && (
+                                  <div>
+                                    <p className="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-2"><ThumbsUp className="w-3.5 h-3.5 text-green-500" />Points positifs</p>
+                                    <ul className="space-y-1">
+                                      {c.points_positifs.map((p, j) => <li key={j} className="text-xs text-slate-700 flex gap-2"><span className="text-green-500 flex-shrink-0">•</span>{p}</li>)}
+                                    </ul>
+                                  </div>
+                                )}
+
+                                {c.actions_recommandees.length > 0 && (
+                                  <div>
+                                    <p className="text-xs font-semibold text-slate-700 flex items-center gap-1.5 mb-2"><Zap className="w-3.5 h-3.5 text-blue-500" />Actions recommandees</p>
+                                    <ul className="space-y-1">
+                                      {c.actions_recommandees.map((a, j) => (
+                                        <li key={j} className="text-xs text-slate-700 flex gap-2 bg-white/60 rounded-lg px-3 py-2"><span className="text-blue-500 font-bold flex-shrink-0">{j + 1}.</span>{a}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+
+                                {c.prediction_fin_reelle && (
+                                  <p className="text-xs text-slate-600 bg-white/60 rounded-lg px-3 py-2"><span className="font-semibold">Fin reelle estimee :</span> {c.prediction_fin_reelle}</p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Recommandations globales */}
+                  {analyse.recommandations_prioritaires.length > 0 && (
+                    <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                      <h3 className="font-semibold text-blue-900 mb-3 flex items-center gap-2"><Zap className="w-4 h-4" />Recommandations prioritaires</h3>
+                      <ul className="space-y-2">
+                        {analyse.recommandations_prioritaires.map((r, i) => (
+                          <li key={i} className="text-sm text-blue-800 flex gap-2"><span className="font-bold flex-shrink-0">{i + 1}.</span>{r}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {analyse.ressources_critiques && (
+                    <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                      <h3 className="font-semibold text-slate-900 mb-2 flex items-center gap-2"><Users className="w-4 h-4" />Ressources humaines</h3>
+                      <p className="text-sm text-slate-700">{analyse.ressources_critiques}</p>
+                    </div>
+                  )}
+
+                  <div className="flex justify-between items-center pt-2">
+                    <button
+                      onClick={lancerAnalyse}
+                      className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1.5"
+                    >
+                      <Brain className="w-4 h-4" />Relancer l'analyse
+                    </button>
+                    <Button variant="outline" onClick={() => setShowAnalyse(false)}>Fermer</Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
