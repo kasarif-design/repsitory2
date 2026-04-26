@@ -10,6 +10,8 @@ import Planning from './pages/Planning';
 import Pointage from './pages/Pointage';
 import Galerie from './pages/Galerie';
 import Devis from './pages/Devis';
+import Terrain from './pages/Terrain';
+import Alertes from './pages/Alertes';
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -33,6 +35,8 @@ function AppRoutes() {
       <Route path="/pointage" element={<ProtectedRoute><Pointage /></ProtectedRoute>} />
       <Route path="/galerie" element={<ProtectedRoute><Galerie /></ProtectedRoute>} />
       <Route path="/devis" element={<ProtectedRoute><Devis /></ProtectedRoute>} />
+      <Route path="/terrain" element={<ProtectedRoute><Terrain /></ProtectedRoute>} />
+      <Route path="/alertes" element={<ProtectedRoute><Alertes /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
