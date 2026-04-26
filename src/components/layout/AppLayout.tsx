@@ -10,6 +10,9 @@ import {
   ChevronRight,
   BarChart3,
   Calendar,
+  Clock,
+  Camera,
+  FileText,
 } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/AuthContext';
@@ -22,6 +25,9 @@ const navigation = [
   { name: 'Equipes', href: '/equipes', icon: Users },
   { name: 'Pilotage', href: '/pilotage', icon: BarChart3 },
   { name: 'Planning', href: '/planning', icon: Calendar },
+  { name: 'Pointage', href: '/pointage', icon: Clock },
+  { name: 'Photos', href: '/galerie', icon: Camera },
+  { name: 'Devis & Factures', href: '/devis', icon: FileText },
 ];
 
 const secondaryNavigation = [

@@ -7,6 +7,9 @@ import Chantiers from './pages/Chantiers';
 import Equipes from './pages/Equipes';
 import Pilotage from './pages/Pilotage';
 import Planning from './pages/Planning';
+import Pointage from './pages/Pointage';
+import Galerie from './pages/Galerie';
+import Devis from './pages/Devis';
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -27,6 +30,9 @@ function AppRoutes() {
       <Route path="/equipes" element={<ProtectedRoute><Equipes /></ProtectedRoute>} />
       <Route path="/pilotage" element={<ProtectedRoute><Pilotage /></ProtectedRoute>} />
       <Route path="/planning" element={<ProtectedRoute><Planning /></ProtectedRoute>} />
+      <Route path="/pointage" element={<ProtectedRoute><Pointage /></ProtectedRoute>} />
+      <Route path="/galerie" element={<ProtectedRoute><Galerie /></ProtectedRoute>} />
+      <Route path="/devis" element={<ProtectedRoute><Devis /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
